@@ -7,8 +7,8 @@ class ClientSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(max_length=70)
     age = serializers.IntegerField(min_value=0, max_value=100)
-    cpf = serializers.CharField(min_length=11)
-    rg = serializers.CharField(min_length=11)
+    cpf = serializers.CharField(max_length=11)
+    rg = serializers.CharField(max_length=11)
 
     class Meta:
         model = Client

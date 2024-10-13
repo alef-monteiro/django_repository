@@ -2,9 +2,15 @@ from django_filters import rest_framework as filters
 from teste.models import Client, Product, Employee, Sale
 
 # Search Filters
-LIKE = 'unaccent__icontains'
+LIKE = 'icontains'
 EQUALS = 'exact'
 STARTS_WITH = 'startswith'
+IN = 'in'
+GT = 'gt'
+LT = 'lt'
+GTE = 'gte'
+LTE = 'lte'
+
 
 class ClientFilter(filters.FilterSet):
     id = filters.CharFilter(field_name='id', lookup_expr=EQUALS)
@@ -33,7 +39,8 @@ class ProductFilter(filters.FilterSet):
 class EmployeeFilter(filters.FilterSet):
     id = filters.CharFilter(field_name='id', lookup_expr=EQUALS)
     name = filters.CharFilter(field_name='name', lookup_expr=LIKE)
-    registration = filters.CharFilter(field_name='registration', lookup_expr=EQUALS)
+    registration_sw = filters.CharFilter(field_name='registration', lookup_expr=STARTS_WITH)
+    registration_eq = filters.CharFilter(field_name='registration', lookup_expr=EQUALS)
 
     class Meta:
         model = Employee

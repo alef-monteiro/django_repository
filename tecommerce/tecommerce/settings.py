@@ -11,13 +11,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from os.path import exists
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+tecommerce_conf = os.path.join(BASE_DIR, 'tecommerce.config')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
+if exists(tecommerce_conf):
+    load_dotenv(tecommerce_conf)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*5(qkr*6r#xyq)u$^gtz$bf8*mtsu#+*y9no#uj&j4u^&o5&a^'
 
@@ -78,23 +80,33 @@ WSGI_APPLICATION = 'tecommerce.wsgi.application'
 
 import os
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Adicione um padrão
+#         'NAME': 'tecommerce',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     },
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  # Adicione um padrão
-        'NAME': 'tecommerce',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('DB_ENGINE'),
+        'NAME': os.environ.get('DB_NAME'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASS'),
     },
 }
 
-print("DB_ENGINE:", os.environ.get('DB_ENGINE'))
-print("DB_NAME:", os.environ.get('DB_NAME'))
-print("DB_USER:", os.environ.get('DB_USER'))
-print("DB_PASSWORD:", os.environ.get('DB_PASS'))
-print("DB_HOST:", os.environ.get('DB_HOST'))
-print("DB_PORT:", os.environ.get('DB_PORT'))
+# print("DB_ENGINE:", os.environ.get('DB_ENGINE'))
+# print("DB_NAME:", os.environ.get('DB_NAME'))
+# print("DB_USER:", os.environ.get('DB_USER'))
+# print("DB_PASSWORD:", os.environ.get('DB_PASS'))
+# print("DB_HOST:", os.environ.get('DB_HOST'))
+# print("DB_PORT:", os.environ.get('DB_PORT'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -138,5 +150,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
-    )
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 }
