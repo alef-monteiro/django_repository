@@ -1,4 +1,4 @@
-# Django Store Management System
+# Test Ecommerce
 
 Este é um sistema de gerenciamento de loja criado com Django que permite o cadastro de clientes, funcionários, produtos e o registro de vendas. O projeto utiliza Django REST Framework para a criação de APIs e Django Filters para facilitar a filtragem de dados.
 
